@@ -11,6 +11,7 @@ import EventsView from './views/EventsView';
 import LoginView from './views/LoginView';
 import ProtectedUserRoutes from './routes/ProtectedUserRoutes';
 import EventDetailsView from './views/EventDetailsView';
+import PastEventsView from './views/PastEventsView';
 
 
 function App() {
@@ -39,6 +40,11 @@ function App() {
           <Route path="/event/:id" element={
             <ProtectedUserRoutes>
               <EventDetailsView />
+            </ProtectedUserRoutes>
+          } />
+          <Route path="/pastevents" element={
+            <ProtectedUserRoutes>
+              <PastEventsView />
             </ProtectedUserRoutes>
           } />
           <Route path="/login" element={<LoginView />} />

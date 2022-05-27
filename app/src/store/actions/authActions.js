@@ -78,3 +78,10 @@ const authFailure = (err) => {
     payload: err
   }
 }
+
+
+export const logout = () => {
+  return {
+    type: actiontypes().auth.logout
+  }
+}

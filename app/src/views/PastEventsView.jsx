@@ -1,8 +1,13 @@
-import React from 'react'
+import {useEffect} from 'react'
+import EventsList from '../conponents/EventsList'
 
 const PastEventsView = () => {
+  
+
   return (
-    <div>PastEventsView</div>
+    <div className="container content">
+      <EventsList />
+    </div>
   )
 }
 

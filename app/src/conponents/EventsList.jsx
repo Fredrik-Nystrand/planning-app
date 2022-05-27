@@ -1,14 +1,32 @@
-import React from 'react'
-import {useSelector} from 'react-redux'
+import {useState, useEffect} from 'react'
+import { useSelector } from 'react-redux'
+import { useLocation } from 'react-router-dom'
 
 import EventItem from './EventItem'
 
 const EventsList = () => {
-  const {events} = useSelector(state => state.eventsReducer)
+  const location = useLocation()
+  const [eventsList, setEventsList] = useState([])
+  const [isPast, setIsPast] = useState(false)
+  const {events, pastEvents, loading} = useSelector(state => state.eventsReducer)
+
+  
+
+  useEffect(() => {
+    if(location.pathname === '/pastevents'){
+      setEventsList(pastEvents)
+      setIsPast(true)
+    }else{
+      setEventsList(events)
+      setIsPast(false)
+    }
+  }, [location.pathname, setEventsList, setIsPast, loading])
+
+
   return (
     <div className="events-list page-card">
-      <h2>Future Events</h2>
-      {events.map(event => (
+      <h2>{isPast ? 'Past Events' : 'Future Events'}</h2>
+      {eventsList.map(event => (
         <EventItem key={event._id} event={event} />
       ))}
     </div>

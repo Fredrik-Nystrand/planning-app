@@ -5,7 +5,7 @@ import 'moment/locale/sv'
 
 const EventItem = ({event}) => {
   return (
-    <Link to={`event/${event._id}`}>
+    <Link to={`/event/${event._id}`}>
       <div className="event-item" style={{borderBottom: event.color + ' 2px solid'}}>
         <p>{event.title}</p>
         <p>{moment(event.dateTime).fromNow()}</p>
