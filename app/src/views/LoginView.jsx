@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useCallback} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {useNavigate, useLocation} from 'react-router-dom'
 import {registerUser, loginUser} from '../store/actions/authActions'
@@ -24,35 +24,12 @@ const LoginView = () => {
     passwordError: null,
   })
 
-  useEffect(() => {
-    if(token){
-      navigate(state?.from || "/")
-    } 
-   }, [token, navigate])
 
-  useEffect(() => {
-    setErrors(state => ({
-      ...state,
-      emailError: error
-    }))
-  }, [error])
 
-  useEffect(() => {
-    if(formData.username.length > 0)
-      validateName(formData.username)
-  }, [formData.username])
+  
+ 
 
-  useEffect(() => {
-    if(formData.email.length > 0)
-      validateEmail(formData.email)
-  }, [formData.email])
-
-  useEffect(() => {
-    if(formData.password1.length > 0 || formData.password2.length > 0)
-      validatePassword(formData.password1, formData.password2)
-  }, [formData.password1, formData.password2])
-
-  const validateName = (name) => {
+  const validateName = useCallback((name) => {
 
       setErrors(state => ({
         ...state,
@@ -85,9 +62,9 @@ const LoginView = () => {
 
       return true
 
-  }
+  }, [])
 
-  const validateEmail = (email) => {
+  const validateEmail = useCallback((email) => {
       setErrors(state => ({
         ...state,
         emailError: ''
@@ -118,9 +95,9 @@ const LoginView = () => {
       }
 
       return true
-  }
+  }, [error])
 
-  const validatePassword = (password1, password2) => {
+  const validatePassword = useCallback((password1, password2) => {
       setErrors(state => ({
         ...state,
         passwordError: ''
@@ -151,7 +128,7 @@ const LoginView = () => {
       }
 
       return true
-  }
+  }, [])
 
   const onChange = (e) => {
 
@@ -214,6 +191,36 @@ const LoginView = () => {
 
     }
   }
+
+  useEffect(() => {
+    if(token){
+      navigate(state?.from || "/")
+    } 
+   }, [token, navigate, state])
+
+  useEffect(() => {
+    setErrors(state => ({
+      ...state,
+      emailError: error
+    }))
+  }, [error])
+
+
+  useEffect(() => {
+    if(formData.username.length > 0)
+      validateName(formData.username)
+  }, [formData.username, validateName])
+
+  useEffect(() => {
+    if(formData.email.length > 0)
+      validateEmail(formData.email)
+  }, [formData.email, validateEmail])
+
+  useEffect(() => {
+    if(formData.password1.length > 0 || formData.password2.length > 0)
+      validatePassword(formData.password1, formData.password2)
+  }, [formData.password1, formData.password2, validatePassword])
+
 
   return (
     <div className="login container content">

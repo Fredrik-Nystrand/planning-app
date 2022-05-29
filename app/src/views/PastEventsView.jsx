@@ -1,4 +1,3 @@
-import {useEffect} from 'react'
 import EventsList from '../conponents/EventsList'
 
 const PastEventsView = () => {

@@ -11,11 +11,15 @@ export const createEvent = (payload) => {
       console.log(payload.event)
       const res = await axios.post('http://localhost:9000/api/events', payload.event, {headers: { Authorization: "Bearer " + payload.token}})
       
-      if(Date.parse(res.data.dateTime) > Date.now()){
-        dispatch(createFutureEventSuccess(res.data))
-      }else{
-        dispatch(createPastEventSuccess(res.data))
+      if(res.status === 200){
+        if(Date.parse(res.data.dateTime) > Date.now()){
+          dispatch(createFutureEventSuccess(res.data))
+        }else{
+          dispatch(createPastEventSuccess(res.data))
+        }
+
       }
+
       
     } catch (err) {
       dispatch(createEventFailure(err))
@@ -54,11 +58,16 @@ export const getEvents = (token) => {
     })
     try {
       const res = await axios.get('http://localhost:9000/api/events', {headers: { Authorization: "Bearer " + token}})
-      const futureEvents = res.data.filter(event => Date.parse(event.dateTime) > Date.now())
-      const pastEvents = res.data.filter(event => Date.parse(event.dateTime) < Date.now())
       
-      dispatch(getFutureEventsSuccess(futureEvents))
-      dispatch(getPastEventsSuccess(pastEvents))
+      if(res.status === 200){
+        const futureEvents = res.data.filter(event => Date.parse(event.dateTime) > Date.now())
+        const pastEvents = res.data.filter(event => Date.parse(event.dateTime) < Date.now())
+      
+        dispatch(getFutureEventsSuccess(futureEvents))
+        dispatch(getPastEventsSuccess(pastEvents))
+      }
+      
+      
 
     } catch (err) {
       dispatch(getEventsFailure(err.message))

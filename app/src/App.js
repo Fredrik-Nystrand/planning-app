@@ -18,14 +18,17 @@ function App() {
 
   const dispatch = useDispatch();
   const {token} = useSelector(state => state.authReducer);
-  const {events, loading} = useSelector(state => state.eventsReducer);
 
   useEffect(() => {
-    dispatch(checkAuth())
+    
     if(token){
       dispatch(getEvents(token))
+    }else{
+      dispatch(checkAuth())
     }
   }, [dispatch, token])
+
+  
 
   return (
     <div className="App">

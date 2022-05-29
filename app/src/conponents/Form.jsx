@@ -13,6 +13,13 @@ const FormView = ({setModalOpen}) => {
     color: '#2bcb5e'
   })
 
+  const [errors, setErrors] = useState({
+    titleError: null,
+    descError: null,
+    dateError: null,
+  })
+
+
   const formatDate = (date) => {
     if(date === '') return ''
 
@@ -33,6 +40,45 @@ const FormView = ({setModalOpen}) => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
+    if(formData.title === ''){
+      setErrors(state => ({
+        ...state,
+        titleError: 'Please write a title'
+      }))
+      return
+    }else {
+      setErrors(state => ({
+        ...state,
+        titleError: ''
+      }))
+    }
+
+    if(formData.dateTime === ''){
+      setErrors(state => ({
+        ...state,
+        dateError: 'Please choose a date and time'
+      }))
+      return
+    }else {
+      setErrors(state => ({
+        ...state,
+        dateError: ''
+      }))
+    }
+
+    if(formData.desc === ''){
+      setErrors(state => ({
+        ...state,
+        descError: 'Please write a description'
+      }))
+      return
+    }else {
+      setErrors(state => ({
+        ...state,
+        descError: ''
+      }))
+    }
+
     const newEvent = {
       event: {
         ...formData
@@ -50,11 +96,13 @@ const FormView = ({setModalOpen}) => {
       <h1>Add Event</h1>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
+          {errors.titleError && <span className="error">{errors.titleError}<i className="fa-solid fa-circle-xmark"></i></span>}
             <label htmlFor="form-title">Title</label>
             <input onChange={onChange} value={formData.title} name="title" id="form-title" className="form-input" type="text" />
           </div>
           <div className="form-row">
             <div className="form-group">
+            {errors.dateError && <span className="error">{errors.dateError}<i className="fa-solid fa-circle-xmark"></i></span>}
               <label>Datum</label>
               <div className="datepicker">
                 <input className="date-output form-input" value={formatDate(formData.dateTime)}  readOnly={true} type="text" />
@@ -68,6 +116,7 @@ const FormView = ({setModalOpen}) => {
             </div>
           </div>
           <div className="form-group">
+          {errors.descError && <span className="error">{errors.descError}<i className="fa-solid fa-circle-xmark"></i></span>}
             <label htmlFor="form-desc">Description</label>
             <textarea name="desc" onChange={onChange} value={formData.desc} id="form-desc" className="form-input" rows="10" cols="50" />
           </div>

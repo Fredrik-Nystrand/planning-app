@@ -6,18 +6,27 @@ const EventDetailsView = () => {
   const navigate = useNavigate()
   const {id} = useParams()
   const [event, setEvent] = useState(null)
+  const [fromPastEvents, setFromPastEvents] = useState(false)
   const {events, pastEvents, loading} = useSelector(state => state.eventsReducer)
 
   useEffect(() => {
     const allEvents = [...events, ...pastEvents]
     setEvent(allEvents.find(event => event._id === id))
-  },[id, loading])
+
+    if(pastEvents.find(event => event._id === id)){
+      setFromPastEvents(true)
+    }else{
+      setFromPastEvents(false)
+    }
+  },[id, loading, events, pastEvents])
+
+  
 
   return (
     <div className="container content">
       <div className="single-event page-card">
         <div className="single-event-header">
-          <p className="back-btn" onClick={() => navigate(-1)}><i className="fa-solid fa-arrow-left"></i> Go Back</p>
+          <p className="back-btn" onClick={() => fromPastEvents ? navigate("/pastevents") : navigate(-1)}><i className="fa-solid fa-arrow-left"></i> Go Back</p>
           <h2>
             {event?.title}
           </h2>

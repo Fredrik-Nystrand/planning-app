@@ -20,7 +20,7 @@ const EventsList = () => {
       setEventsList(events)
       setIsPast(false)
     }
-  }, [location.pathname, setEventsList, setIsPast, loading])
+  }, [location.pathname, setEventsList, setIsPast, loading, events, pastEvents])
 
 
   return (

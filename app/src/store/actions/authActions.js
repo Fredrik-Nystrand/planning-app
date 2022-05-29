@@ -7,7 +7,11 @@ const apiCall = async (url, user, dispatch) => {
   
   try {
     const res = await axios.post(url, user)
-    dispatch(authSuccess(res.data))
+
+    if(res.status === 200 || res.status === 201){
+        
+      dispatch(authSuccess(res.data))
+    }
 
   } catch (err) {
     if(err.response.data?.emailAlreadyExists){

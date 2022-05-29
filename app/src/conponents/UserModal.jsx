@@ -12,7 +12,7 @@ const UserModal = () => {
     <div className="user-modal">
       <div className="user-modal-header">
         <div className="user-modal-avatar">
-          <img src={profilePic} alt="" />
+          <img src={profilePic} alt="The user" />
         </div>
         <div className="user-info">
           <div className="user-name">{name}</div>
